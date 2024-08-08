@@ -1,5 +1,6 @@
 package bo.com.bancounion.proxyapi.service.Impl;
 
+import bo.com.bancounion.proxyapi.client.dto.CountryDto;
 import bo.com.bancounion.proxyapi.client.dto.Show;
 import bo.com.bancounion.proxyapi.client.service.ICountryRestClient;
 import bo.com.bancounion.proxyapi.response.HandlerResponse;
@@ -36,6 +37,35 @@ public class CountryServiceImpl implements CountryService {
         metadataResponse.setMessage(message);
         metadataResponse.setHttpCode(httpCode);
         dataResponse.setData(show);
+
+        HandlerResponse handlerResponse = new HandlerResponse(metadataResponse, dataResponse);
+
+        return handlerResponse;
+    }
+
+    @Override
+    public HandlerResponse getCountryByIp(String ip, String apiKey) {
+        String message = "Success";
+        Integer httpCode = Response.Status.OK.getStatusCode();
+
+        HandlerResponse.MetadataResponse metadataResponse = new HandlerResponse.MetadataResponse();
+        HandlerResponse.DataResponse dataResponse = new HandlerResponse.DataResponse();
+
+        CountryDto countryDto = new CountryDto();
+
+        try{
+
+            countryDto = client.getCountryByIp(ip, apiKey);
+
+        }catch (Exception ex){
+            System.out.println("Error al obtener listado de shows por ID. Message: " + ex.getMessage());
+            message = "Fail";
+            httpCode = Response.Status.BAD_REQUEST.getStatusCode();
+        }
+
+        metadataResponse.setMessage(message);
+        metadataResponse.setHttpCode(httpCode);
+        dataResponse.setData(countryDto);
 
         HandlerResponse handlerResponse = new HandlerResponse(metadataResponse, dataResponse);
 
