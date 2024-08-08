@@ -6,7 +6,9 @@ import bo.com.bancounion.proxyapi.client.service.ICountryRestClient;
 import bo.com.bancounion.proxyapi.response.HandlerResponse;
 import bo.com.bancounion.proxyapi.service.CountryService;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 @ApplicationScoped
@@ -14,6 +16,11 @@ public class CountryServiceImpl implements CountryService {
 
     @RestClient
     ICountryRestClient client;
+
+    @Inject
+    @ConfigProperty(name = "ip.country.api.key")
+    String ApiKey;
+
     @Override
     public HandlerResponse getShowsById2(Integer showId) {
         String message = "Success";
@@ -44,7 +51,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public HandlerResponse getCountryByIp(String ip, String apiKey) {
+    public HandlerResponse getCountryByIp(String ip) {
         String message = "Success";
         Integer httpCode = Response.Status.OK.getStatusCode();
 
@@ -54,8 +61,8 @@ public class CountryServiceImpl implements CountryService {
         CountryDto countryDto = new CountryDto();
 
         try{
-
-            countryDto = client.getCountryByIp(ip, apiKey);
+            //apiKey = System.getenv("IP_COUNTRY_API_KEY");
+            countryDto = client.getCountryByIp(ip, ApiKey);
 
         }catch (Exception ex){
             System.out.println("Error al obtener listado de shows por ID. Message: " + ex.getMessage());

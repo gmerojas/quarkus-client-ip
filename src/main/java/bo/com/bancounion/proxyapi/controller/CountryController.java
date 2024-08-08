@@ -9,6 +9,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Path("/api/v1/country")
 public class CountryController {
@@ -28,7 +29,7 @@ public class CountryController {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/ip/{ip}")
     public Response getCountryByIp(@PathParam("ip") String ip) {
-        HandlerResponse handlerResponse = service.getCountryByIp(ip,"5868e42d-ca9d-4752-9a64-9dc88b9646ae");
+        HandlerResponse handlerResponse = service.getCountryByIp(ip);
         return Response.status(handlerResponse.getMetadata().getHttpCode()).entity(handlerResponse).build();
     }
 }

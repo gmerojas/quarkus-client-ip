@@ -4,7 +4,7 @@ import bo.com.bancounion.proxyapi.response.HandlerResponse;
 
 public interface CountryService {
 
-    HandlerResponse getCountryByIp(String ip, String apiKey);
+    HandlerResponse getCountryByIp(String ip);
 
     HandlerResponse getShowsById2(Integer showId);
 }
