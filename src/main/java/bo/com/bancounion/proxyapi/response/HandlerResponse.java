@@ -18,7 +18,7 @@ public class HandlerResponse {
     MetadataResponse metadata;
 
     @JsonProperty("data")
-    DataResponse data;
+    Object data;
 
     @Data
     @NoArgsConstructor
@@ -32,12 +32,5 @@ public class HandlerResponse {
             this.message = message;
             this.httpCode = httpCode;
         }
-    }
-
-    @Data
-    @NoArgsConstructor
-    @RegisterForReflection
-    public static class DataResponse{
-        Object data;
     }
 }
