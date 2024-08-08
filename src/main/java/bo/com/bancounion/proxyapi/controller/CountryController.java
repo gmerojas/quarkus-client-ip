@@ -1,18 +1,26 @@
 package bo.com.bancounion.proxyapi.controller;
 
+import bo.com.bancounion.proxyapi.response.HandlerResponse;
+import bo.com.bancounion.proxyapi.service.CountryService;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 
 @Path("/api/v1/country")
 public class CountryController {
 
+    @Inject
+    private CountryService service;
+
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/ip/{ip}")
-    public String getCountry(@PathParam("ip") String ip) {
-        return "IP: " + ip;
+    public Response getCountry(@PathParam("ip") String ip) {
+        HandlerResponse handlerResponse = service.getShowsById2(Integer.parseInt(ip));
+        return Response.status(handlerResponse.getMetadata().getHttpCode()).entity(handlerResponse).build();
     }
 }
